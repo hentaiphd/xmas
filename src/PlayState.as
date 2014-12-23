@@ -56,6 +56,8 @@ package
         public var mouse_lock:Boolean = false;
         public var instruction_lock:Boolean = false;
 
+        public var cur_pos:Number = 0;
+
         override public function create():void
         {
             FlxG.bgColor = 0xff458A00;
@@ -164,6 +166,9 @@ package
             endbg.visible = false;
             endbg.alpha = 0;
 
+            famTextBg.power = 5;
+            momTextBg.power = 5;
+
         }
 
         override public function update():void
@@ -175,31 +180,31 @@ package
                 timeFrame++;
             }
 
-            if(timeFrame > 0){
+            if(timeFrame == 0){
                 momText.text = "The man is an idiot. I'm not PRETENDING that she has asthma.";
-            } else if(timeFrame > 3){
+            } else if(timeFrame == 3){
                 familyText.text = "You're being irrational, Lisa! She's fine.";
-            } else if(timeFrame > 5){
+            } else if(timeFrame == 5){
                 momText.text = "He's psychotic--he couldn't even handle his sales job.";
-            } else if(timeFrame > 7){
+            } else if(timeFrame == 7){
                 familyText.text = "You haven't worked since she was born, so you're not one to talk.";
-            } else if(timeFrame > 13){
+            } else if(timeFrame == 13){
                 momText.text = "I'm taking care of Mia by myself. How could I work?";
-            } else if(timeFrame > 16){
+            } else if(timeFrame == 16){
                 familyText.text = "Well then, why don't you TRY getting along with Bret?";
-            } else if(timeFrame > 20){
+            } else if(timeFrame == 20){
                 momText.text = "He is abusive!";
-            } else if(timeFrame > 25){
+            } else if(timeFrame == 25){
                 familyText.text = "You need a man to support you, Lisa. You and your daughter.";
-            } else if(timeFrame > 30){
+            } else if(timeFrame == 30){
                 momText.text = "We don't need him.";
-            } else if(timeFrame > 35){
+            } else if(timeFrame == 35){
                 familyText.text = "How are you going to put food on the table?";
-            } else if(timeFrame > 40){
+            } else if(timeFrame == 40){
                 momText.text = "I'll get a job. He also has to give me child support.";
-            } else if(timeFrame > 45){
+            } else if(timeFrame == 45){
                 familyText.text = "You're so selfish!";
-            } else if(timeFrame > 50){
+            } else if(timeFrame == 50){
                 momText.text = "How I raise my child is none of your business anyways!";
                 familyText.text = "You're not thinking about what's best for her--she should live with her father.";
             } else if(timeFrame > 53){
@@ -207,16 +212,15 @@ package
                 familyText.text = "You're crazy Lisa! And you're raising a brat!";
                 endbg.visible = true;
                 endbg.alpha += .01;
-            } else if(timeFrame > 56){
-                momText.text = "How can you say that about a child--you're the crazy one!";
-            } else if(timeFrame == 59){
+            } //else if(timeFrame == 56){
+                //momText.text = "How can you say that about a child--you're the crazy one!";
+            //}
+            if(timeFrame == 59){
                 FlxG.switchState(new TextState("GET OUT L ISA! AND TAKE THAT BRAT WITH YOU!","end 1"));
             }
 
             mouse.x = FlxG.mouse.x;
             mouse.y = FlxG.mouse.y;
-            famTextBg.power = 5;
-            momTextBg.power = 5;
 
             momText.x = momTextBg.x+56;
             momText.y = momTextBg.y+45;
@@ -227,31 +231,25 @@ package
             //bulbText.size = 20;
             //bulbText.y = 200;
 
-            if(msgText.text != ""){
-                if(timeFrame%5 == 0){
-                    msgText.text = "";
-                }
-            }
-
             for(var i:Number = 0; i < bubble_group.length; i++) {
                 bubble_group.members[i].alpha += .0001;
             }
 
-            if(!FlxG.mouse.pressed() && !decorate) {
-                if(FlxG.overlap(carried_bulb,player,activeDecorate)) {
-                    decorate = true;
-                    player.holding = true;
-                    this.carried_bulb.visible = false;
-                    this.carried_bulb.holding = false;
-                    inst_arrow.visible = false;
+            if(!FlxG.mouse.pressed()) {
+                if(!decorate) {
+                    if(FlxG.overlap(carried_bulb,player,activeDecorate)) {
+                        decorate = true;
+                        player.holding = true;
+                        this.carried_bulb.visible = false;
+                        this.carried_bulb.holding = false;
+                        inst_arrow.visible = false;
 
-                    if(!instruction_lock) {
-                        instruction.visible = true;
-                        instruction_lock = true;
+                        if(!instruction_lock) {
+                            instruction.visible = true;
+                            instruction_lock = true;
+                        }
                     }
                 }
-            }
-            if(!FlxG.mouse.pressed()) {
                 this.carried_bulb.visible = false;
                 this.carried_bulb.holding = false;
                 this.carried_bulb.x = box.x;
@@ -297,15 +295,12 @@ package
             }
 
             if(decorate) {
-                //FlxG.overlap(bulb,mouse,clickHeldBulb);
                 if(player.stuffing > 3) {
-                    //bulb.x = Math.random()*152+19;
-                    //bulb.y = Math.random()*119+261;
                     player.stuffing = 4;
                     player.held = false;
                     bulbs_stuffed++;
 
-                    var cur_pos:Number = bulbs_stuffed;
+                    cur_pos = bulbs_stuffed;
                     if(cur_pos > bulb_positions.length || cur_pos < 0){
                         cur_pos = Math.floor(Math.random()*bulb_positions.length);
                     }
