@@ -223,12 +223,13 @@ package
             }else if(timeFrame > 53){
                 momText.text = "He's not a good parent!";
                 familyText.text = "You're crazy Lisa! And you're a bad mother!";
-            } else if(timeFrame == 56){
+            }
+            if(timeFrame >= 56){
                 endbg.visible = true;
                 endbg.alpha += .01;
             }
-            if(timeFrame == 59){
-                FlxG.switchState(new TextState("GET OUT L ISA! AND TAKE THAT BRAT WITH YOU!","end 1"));
+            if(timeFrame == 61){
+                FlxG.switchState(new TextState("GET OUT L ISA!\nAND TAKE THAT BRAT WITH YOU!","end 1"));
             }
 
             mouse.x = FlxG.mouse.x;

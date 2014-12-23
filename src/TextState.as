@@ -9,13 +9,15 @@ package
         [Embed(source="../assets/new/auxpuces.mp3")] private var ClockSound:Class;
         [Embed(source="../assets/new/leave.mp3")] private var LeaveSound:Class;
 
-        public var _text:String;
         public var nextState:FlxState;
         public var ending:String;
+        public var end_text:FlxText;
 
-        public function TextState(_text:String, end:String) {
+        public function TextState(e_text:String, end:String) {
             super();
-            this._text = _text;
+            end_text = new FlxText(0,FlxG.height/2-10,FlxG.width,e_text);
+            end_text.setFormat("zaguatica-Bold",24,0xffffffff,"center");
+            add(end_text);
             //this.nextState = next;
             ending = end;
             FlxG.bgColor = 0xff000000;
@@ -43,17 +45,21 @@ package
                 }
             } else if(ending == "end 3") {
                 FlxG.play(LeaveSound);
+                endTime = 8;
+                if(timeSec == 4) {
+                    end_text.visible = false;
+                }
             }
-
-            var t:FlxText;
-            t = new FlxText(0,FlxG.height/2-10,FlxG.width,_text);
-            t.setFormat("zaguatica-Bold",24,0xffffffff,"center");
-            add(t);
         }
 
         override public function update():void
         {
             super.update();
+            if(ending == "end 3") {
+                if(timeSec == 4) {
+                    end_text.visible = false;
+                }
+            }
         }
 
         override public function endCallback():void {

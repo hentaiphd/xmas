@@ -4,7 +4,7 @@ package {
     public class TimedState extends FlxState {
         public var timeFrame:Number = 0;
         public var timeSec:Number = 0;
-        public var endTime:Number = 30;
+        public var endTime:Number = 35;
 
         override public function update():void{
             super.update();
