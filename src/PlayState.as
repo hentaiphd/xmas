@@ -16,6 +16,8 @@ package
         [Embed(source="../assets/new/instruction.png")] private var InstructImg:Class;
         [Embed(source="../assets/new/throw2.png")] private var EndImg:Class;
         [Embed(source="../assets/new/auxpuces.mp3")] private var ClockSound:Class;
+        [Embed(source="../assets/new/TITLE_B.png")] private var ImgBg2:Class;
+        [Embed(source="../assets/new/TITLE_B_BUBBLE.png")] private var ImgBubble:Class;
 
         public var bulbText:FlxText;
         public var timeText:FlxText;
@@ -57,6 +59,10 @@ package
         public var instruction_lock:Boolean = false;
 
         public var cur_pos:Number = 0;
+
+        public var opening_bubble:FlxSprite;
+        public var bg2:FlxSprite;
+        public var opening_text:FlxText;
 
         override public function create():void
         {
@@ -169,11 +175,33 @@ package
             famTextBg.power = 5;
             momTextBg.power = 5;
 
+            bg2 = new FlxSprite(0,0);
+            bg2.loadGraphic(ImgBg2,false,false,640,480);
+            FlxG.state.add(bg2);
+
+            opening_bubble = new FlxSprite(50,10);
+            opening_bubble.loadGraphic(ImgBubble,false,false,528,150);
+            FlxG.state.add(opening_bubble);
+
+            opening_text = new FlxText(60,50,500,"Honey, take this confetti\nand stuff the empty Christmas bulbs.");
+            opening_text.setFormat("zaguatica-Bold",20,0xffffffff,"center");
+            FlxG.state.add(opening_text);
+
         }
 
         override public function update():void
         {
             super.update();
+
+            if(bg2.alpha > 0 && bg2.visible) {
+                bg2.alpha -= .01;
+                opening_bubble.alpha -= .01;
+                opening_text.alpha -= .01;
+            } else {
+                bg2.visible = false;
+                opening_bubble.visible = false;
+                opening_text.visible = false;
+            }
 
             frames++;
             if(frames%50 == 0){

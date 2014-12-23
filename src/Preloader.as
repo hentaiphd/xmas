@@ -6,7 +6,7 @@ package
 	{
 		public function Preloader()
 		{
-			className = "AliensTwo";
+			className = "Ornament";
 			super();
 		}
 	}
