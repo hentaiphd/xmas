@@ -7,6 +7,7 @@ package
         [Embed(source="../assets/glass.mp3")] private var GlassSound:Class;
         [Embed(source="../assets/new/brokenbulb.png")] private var BgImg:Class;
         [Embed(source="../assets/new/auxpuces.mp3")] private var ClockSound:Class;
+        [Embed(source="../assets/new/leave.mp3")] private var LeaveSound:Class;
 
         public var _text:String;
         public var nextState:FlxState;
@@ -40,6 +41,8 @@ package
                         FlxG.playMusic(ClockSound);
                     }
                 }
+            } else if(ending == "end 3") {
+                FlxG.play(LeaveSound);
             }
 
             var t:FlxText;
@@ -57,6 +60,8 @@ package
             if(ending == "end 1"){
                 FlxG.switchState(new TextState("","end 2"));
             } else if (ending == "end 2"){
+                FlxG.switchState(new TextState("We're leaving. Get in the car, honey.", "end 3"));
+            } else if(ending == "end 3") {
                 FlxG.switchState(new MenuState());
             } else if(ending == "nope"){
                 FlxG.switchState(new PlayState());

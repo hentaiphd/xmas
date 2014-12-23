@@ -12,9 +12,9 @@ package
         [Embed(source="../assets/new/sisbubble.png")] private var SisBubbleImg:Class;
         [Embed(source="../assets/new/tablechair.png")] private var ChairImg:Class;
         [Embed(source="../assets/new/tabletop.png")] private var TableTopImg:Class;
-        [Embed(source="../assets/new/downarrow.png")] private var DownArrowImg:Class;
-        [Embed(source="../assets/new/sidearrow.png")] private var SideArrowImg:Class;
+        [Embed(source="../assets/new/arrows.png")] private var ArrowImg:Class;
         [Embed(source="../assets/new/instruction.png")] private var InstructImg:Class;
+        [Embed(source="../assets/new/throw2.png")] private var EndImg:Class;
         [Embed(source="../assets/new/auxpuces.mp3")] private var ClockSound:Class;
 
         public var bulbText:FlxText;
@@ -36,8 +36,8 @@ package
         public var chair:FlxSprite;
         public var box:FlxRect;
         public var mouse_rect:FlxRect;
-        public var side_arrow:FlxSprite;
-        public var down_arrow:FlxSprite;
+        public var inst_arrow:FlxSprite;
+        public var endbg:FlxSprite;
 
         public var frames:Number = 0;
         public var timeFrame:Number = 0;
@@ -148,18 +148,21 @@ package
             mouse.addAnimation("idle",[0],0,false);
             mouse.addAnimation("grab",[1],0,false);
             mouse.addAnimation("hold",[2],0,false);
+            mouse.addAnimation("inactive",[3],0,false);
             mouse.play("idle");
             add(mouse);
 
             mouse_rect = new FlxRect(0,0,mouse.width,mouse.height);
 
-            down_arrow = new FlxSprite(box.x+(box.width/2),box.y-70);
-            down_arrow.loadGraphic(DownArrowImg,false,false,36,55);
-            FlxG.state.add(down_arrow);
+            inst_arrow = new FlxSprite(box.x-120,box.y-80);
+            inst_arrow.loadGraphic(ArrowImg,false,false,177,100);
+            FlxG.state.add(inst_arrow);
 
-            side_arrow = new FlxSprite(bulb.x+140,bulb.y);
-            side_arrow.loadGraphic(SideArrowImg,true,false,55,36);
-            FlxG.state.add(side_arrow);
+            endbg = new FlxSprite(0,0);
+            endbg.loadGraphic(EndImg,false,false,640,480);
+            add(endbg)
+            endbg.visible = false;
+            endbg.alpha = 0;
 
         }
 
@@ -174,68 +177,39 @@ package
 
             if(timeFrame > 0){
                 momText.text = "The man is an idiot. I'm not PRETENDING that she has asthma.";
-            }
-
-            if(timeFrame > 3){
+            } else if(timeFrame > 3){
                 familyText.text = "You're being irrational, Lisa! She's fine.";
-            }
-
-            if(timeFrame > 5){
+            } else if(timeFrame > 5){
                 momText.text = "He's psychotic--he couldn't even handle his sales job.";
-            }
-
-            if(timeFrame > 7){
+            } else if(timeFrame > 7){
                 familyText.text = "You haven't worked since she was born, so you're not one to talk.";
-            }
-
-            if(timeFrame > 13){
+            } else if(timeFrame > 13){
                 momText.text = "I'm taking care of Mia by myself. How could I work?";
-            }
-
-            if(timeFrame > 16){
+            } else if(timeFrame > 16){
                 familyText.text = "Well then, why don't you TRY getting along with Bret?";
-            }
-
-            if(timeFrame > 20){
+            } else if(timeFrame > 20){
                 momText.text = "He is abusive!";
-            }
-
-            if(timeFrame > 25){
-                //start shake
+            } else if(timeFrame > 25){
                 familyText.text = "You need a man to support you, Lisa. You and your daughter.";
-            }
-
-            if(timeFrame > 30){
+            } else if(timeFrame > 30){
                 momText.text = "We don't need him.";
-            }
-
-            if(timeFrame > 35){
+            } else if(timeFrame > 35){
                 familyText.text = "How are you going to put food on the table?";
-            }
-
-            if(timeFrame > 40){
+            } else if(timeFrame > 40){
                 momText.text = "I'll get a job. He also has to give me child support.";
-            }
-
-            if(timeFrame > 45){
+            } else if(timeFrame > 45){
                 familyText.text = "You're so selfish!";
-            }
-
-            if(timeFrame > 50){
+            } else if(timeFrame > 50){
                 momText.text = "How I raise my child is none of your business anyways!";
                 familyText.text = "You're not thinking about what's best for her--she should live with her father.";
-            }
-
-            if(timeFrame > 53){
+            } else if(timeFrame > 53){
                 momText.text = "He's not a good parent! I'm her mother!";
                 familyText.text = "You're crazy Lisa! And you're raising a brat!";
-            }
-
-            if(timeFrame > 56){
+                endbg.visible = true;
+                endbg.alpha += .01;
+            } else if(timeFrame > 56){
                 momText.text = "How can you say that about a child--you're the crazy one!";
-            }
-
-            if(timeFrame == 59){
+            } else if(timeFrame == 59){
                 FlxG.switchState(new TextState("GET OUT L ISA! AND TAKE THAT BRAT WITH YOU!","end 1"));
             }
 
@@ -266,10 +240,10 @@ package
             if(!FlxG.mouse.pressed() && !decorate) {
                 if(FlxG.overlap(carried_bulb,player,activeDecorate)) {
                     decorate = true;
-                    side_arrow.visible = false;
                     player.holding = true;
                     this.carried_bulb.visible = false;
                     this.carried_bulb.holding = false;
+                    inst_arrow.visible = false;
 
                     if(!instruction_lock) {
                         instruction.visible = true;
@@ -287,34 +261,39 @@ package
             for(i = 0; i < full_bulbs.length; i++) {
                 if(player.held) {
                     full_bulbs.members[i].visible = true;
+                    mouse.play("idle");
                 }
             }
 
             mouse_rect.x = FlxG.mouse.x;
             mouse_rect.y = FlxG.mouse.y;
-            if(bulb.overlaps(mouse_rect) || box.overlaps(mouse_rect)) {
-                if(FlxG.mouse.pressed()) {
-                    if(bulb.overlaps(mouse_rect) && decorate) {
-                        mouse.play("hold");
-                    }
-                    if(box.overlaps(mouse_rect)) {
-                        mouse.play("hold");
-                    }
-                } else {
-                    if(box.overlaps(mouse_rect) || (bulb.overlaps(mouse_rect) && decorate)) {
-                        mouse.play("grab");
-                    }
-                }
-
-                if(bulb.overlaps(mouse_rect)) {
-                    grabBulb();
-                } else if(box.overlaps(mouse_rect)) {
-                    clickHeldBulb();
-                }
-            } else if(FlxG.mouse.pressed()) {
-                mouse.play("hold");
+            if(player.stuffing == 4) {
+                mouse.play("inactive");
             } else {
-                mouse.play("idle");
+                if(bulb.overlaps(mouse_rect) || box.overlaps(mouse_rect)) {
+                    if(FlxG.mouse.pressed()) {
+                        if(bulb.overlaps(mouse_rect) && decorate) {
+                            mouse.play("hold");
+                        }
+                        if(box.overlaps(mouse_rect)) {
+                            mouse.play("hold");
+                        }
+                    } else {
+                        if(box.overlaps(mouse_rect) || (bulb.overlaps(mouse_rect) && decorate)) {
+                            mouse.play("grab");
+                        }
+                    }
+
+                    if(bulb.overlaps(mouse_rect)) {
+                        grabBulb();
+                    } else if(box.overlaps(mouse_rect)) {
+                        clickHeldBulb();
+                    }
+                } else if(FlxG.mouse.pressed()) {
+                    mouse.play("hold");
+                } else {
+                    mouse.play("idle");
+                }
             }
 
             if(decorate) {
@@ -358,7 +337,6 @@ package
             if(FlxG.mouse.pressed()) {
                 this.carried_bulb.visible = true;
                 this.carried_bulb.holding = true;
-                down_arrow.visible = false;
             }
         }
 
