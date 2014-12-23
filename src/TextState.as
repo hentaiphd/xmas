@@ -66,7 +66,7 @@ package
             if(ending == "end 1"){
                 FlxG.switchState(new TextState("","end 2"));
             } else if (ending == "end 2"){
-                FlxG.switchState(new TextState("We're leaving. Get in the car, honey.", "end 3"));
+                FlxG.switchState(new TextState("That's enough. We're leaving.\nGet in the car, honey.", "end 3"));
             } else if(ending == "end 3") {
                 FlxG.switchState(new MenuState());
             } else if(ending == "nope"){

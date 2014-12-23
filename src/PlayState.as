@@ -156,7 +156,7 @@ package
 
             mouse_rect = new FlxRect(0,0,mouse.width,mouse.height);
 
-            inst_arrow = new FlxSprite(box.x-120,box.y-80);
+            inst_arrow = new FlxSprite(box.x-110,box.y-75);
             inst_arrow.loadGraphic(ArrowImg,false,false,177,100);
             FlxG.state.add(inst_arrow);
 
