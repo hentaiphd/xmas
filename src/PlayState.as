@@ -186,35 +186,47 @@ package
                 familyText.text = "You're being irrational, Lisa! She's fine.";
             } else if(timeFrame == 5){
                 momText.text = "He's psychotic--he couldn't even handle his sales job.";
-            } else if(timeFrame == 7){
+            } else if(timeFrame == 8){
                 familyText.text = "You haven't worked since she was born, so you're not one to talk.";
-            } else if(timeFrame == 13){
+            } else if(timeFrame == 11){
                 momText.text = "I'm taking care of Mia by myself. How could I work?";
-            } else if(timeFrame == 16){
+            } else if(timeFrame == 14){
                 familyText.text = "Well then, why don't you TRY getting along with Bret?";
-            } else if(timeFrame == 20){
+            } else if(timeFrame == 17){
                 momText.text = "He is abusive!";
-            } else if(timeFrame == 25){
-                familyText.text = "You need a man to support you, Lisa. You and your daughter.";
-            } else if(timeFrame == 30){
-                momText.text = "We don't need him.";
+            } else if (timeFrame == 20) {
+                familyText.text = "You're not thinking about what's best for her--she should live with her father.";
+            /*} else if(timeFrame == 23) {
+                momText.text = "She should live with him? He can't even take care of himself.";
+            } else if(timeFrame == 26){
+                familyText.text = "You should go try and meet someone else then.";*/
+            } else if(timeFrame == 23){
+                momText.text = "You invited us here today, why are you attacking me like this?!";
+            } else if(timeFrame == 26){
+                familyText.text = "What you're doing doesn't look good and she needs a father."
+            } else if(timeFrame == 29){
+                momText.text = "He doesn't care about her. He flipped out the other day and broke her swing!";
+            } else if(timeFrame == 32){
+                familyText.text = "That's not what he told me.";
             } else if(timeFrame == 35){
+                familyText.text = "You need a man to support you, Lisa. You and your daughter.";
+            } else if(timeFrame == 38){
+                momText.text = "We don't need him.";
+            } else if(timeFrame == 41){
                 familyText.text = "How are you going to put food on the table?";
-            } else if(timeFrame == 40){
+            } else if(timeFrame == 44){
                 momText.text = "I'll get a job. He also has to give me child support.";
-            } else if(timeFrame == 45){
+            } else if(timeFrame == 47){
                 familyText.text = "You're so selfish!";
             } else if(timeFrame == 50){
                 momText.text = "How I raise my child is none of your business anyways!";
-                familyText.text = "You're not thinking about what's best for her--she should live with her father.";
-            } else if(timeFrame > 53){
-                momText.text = "He's not a good parent! I'm her mother!";
-                familyText.text = "You're crazy Lisa! And you're raising a brat!";
+            }else if(timeFrame > 53){
+                momText.text = "He's not a good parent!";
+                familyText.text = "You're crazy Lisa! And you're a bad mother!";
+            } else if(timeFrame == 56){
                 endbg.visible = true;
                 endbg.alpha += .01;
-            } //else if(timeFrame == 56){
-                //momText.text = "How can you say that about a child--you're the crazy one!";
-            //}
+            }
             if(timeFrame == 59){
                 FlxG.switchState(new TextState("GET OUT L ISA! AND TAKE THAT BRAT WITH YOU!","end 1"));
             }
@@ -267,7 +279,9 @@ package
             mouse_rect.y = FlxG.mouse.y;
             if(player.stuffing == 4) {
                 mouse.play("inactive");
+                mouse.alpha = .5;
             } else {
+                mouse.alpha = 1;
                 if(bulb.overlaps(mouse_rect) || box.overlaps(mouse_rect)) {
                     if(FlxG.mouse.pressed()) {
                         if(bulb.overlaps(mouse_rect) && decorate) {
