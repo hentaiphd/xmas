@@ -11,6 +11,7 @@ package
         [Embed(source="../assets/new/TITLE_A.png")] private var ImgBg1:Class;
         [Embed(source="../assets/new/TITLE_B.png")] private var ImgBg2:Class;
         [Embed(source="../assets/new/TITLE_B_BUBBLE.png")] private var ImgBubble:Class;
+        [Embed(source="../assets/new/snow.png")] private var ImgSnow:Class;
 
         public var nextState:FlxState;
         public var ending:String;
@@ -19,14 +20,20 @@ package
         public var bg2:FlxSprite;
         public var bubble:FlxSprite;
         public var end_string:String;
-        public var opening_text:FlxText;
 
-        public function TextState(e_text:String, end:String) {
+        public var opening_text:FlxText;
+        public var snow:FlxSprite;
+        public var snow2:FlxSprite;
+        public var snow_group:FlxGroup;
+        public var snow_pos:Array;
+
+        public function TextState(e_text:String, end:String, snowpos:Array=null) {
             super();
             end_string = e_text;
             //this.nextState = next;
             ending = end;
             FlxG.bgColor = 0xff000000;
+            snow_pos = snowpos;
         }
 
         override public function create():void
@@ -64,6 +71,18 @@ package
                 opening_text.alpha = 0;
                 FlxG.state.add(opening_text);
                 end_text.visible = false;
+
+                snow_group = new FlxGroup();
+
+                snow = new FlxSprite(snow_pos[0].x,snow_pos[0].y);
+                snow.loadGraphic(ImgSnow,false,false,573,850);
+                FlxG.state.add(snow);
+                snow_group.add(snow);
+
+                snow2 = new FlxSprite(snow_pos[1].x,snow_pos[1].y);
+                snow2.loadGraphic(ImgSnow,false,false,573,850);
+                FlxG.state.add(snow2);
+                snow_group.add(snow2);
 
                 endTime = 3;
 
@@ -103,6 +122,13 @@ package
                 } else {
                     bubble.alpha += .03;
                     opening_text.alpha += .03;
+                }
+
+                for(var i:Number = 0; i < snow_group.length; i++) {
+                    snow_group.members[i].y += 1;
+                    if(snow_group.members[i].y >= 480) {
+                        snow_group.members[i].y = -850;
+                    }
                 }
             }
         }
