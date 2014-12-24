@@ -91,19 +91,19 @@ package
             chair.loadGraphic(ChairImg,false,false,640,290)
             FlxG.state.add(chair);
 
+            player = new Player(116,136);
+            FlxG.state.add(player);
+
             table = new FlxSprite(0,FlxG.height-96);
             table.loadGraphic(TableTopImg,false,false,640,96);
             FlxG.state.add(table);
-
-            player = new Player(117,FlxG.height-chair.height-40);
-            FlxG.state.add(player);
 
             if(FlxG.music == null){
                 FlxG.playMusic(ClockSound);
             } else {
                 FlxG.music.resume();
                 if(!FlxG.music.active){
-                    FlxG.playMusic(ClockSound);
+                    //FlxG.playMusic(ClockSound);
                 }
             }
 
@@ -254,9 +254,10 @@ package
             }
             if(timeFrame >= 56){
                 endbg.visible = true;
-                endbg.alpha += .01;
+                endbg.alpha += .02;
             }
             if(timeFrame == 61){
+                FlxG.music.destroy();
                 FlxG.switchState(new TextState("GET OUT L ISA!\nAND TAKE THAT BRAT WITH YOU!","end 1"));
             }
 
