@@ -13,7 +13,7 @@ package
         [Embed(source="../assets/new/tablechair.png")] private var ChairImg:Class;
         [Embed(source="../assets/new/tabletop.png")] private var TableTopImg:Class;
         [Embed(source="../assets/new/arrows.png")] private var ArrowImg:Class;
-        [Embed(source="../assets/new/instruction.png")] private var InstructImg:Class;
+        [Embed(source="../assets/new/stuff.png")] private var InstructImg:Class;
         [Embed(source="../assets/new/throw2.png")] private var EndImg:Class;
         [Embed(source="../assets/new/auxpuces.mp3")] private var ClockSound:Class;
         [Embed(source="../assets/new/TITLE_B.png")] private var ImgBg2:Class;
@@ -116,8 +116,8 @@ package
             FlxG.state.add(carried_bulb);
             carried_bulb.visible = false;
 
-            instruction = new FlxSprite(bulb.x-170, bulb.y+50);
-            instruction.loadGraphic(InstructImg,false,false,172,21);
+            instruction = new FlxSprite(50, bulb.y+10);
+            instruction.loadGraphic(InstructImg,false,false,239,66);
             FlxG.state.add(instruction);
             instruction.visible = false;
 
